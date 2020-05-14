@@ -40,7 +40,7 @@ public class DAO {
 
 	public ArrayList<BBR_DTO> getIndex() {
 		ArrayList<BBR_DTO> list = new ArrayList<>();
-		String sql = "select * from bbr";
+		String sql = "select * from bbr order by no desc";
 		try {
 			con = getCon();
 			st = con.createStatement();
