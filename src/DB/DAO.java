@@ -1,12 +1,16 @@
 package DB;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 public class DAO {
 	Connection con = null;
@@ -29,10 +33,14 @@ public class DAO {
 	}
 
 	private Connection getCon() {
+		
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection(url, dbid, pass);
+			Context initCon = new InitialContext();
+			Context envContext =(Context)initCon.lookup("java:/comp/env");
+			DataSource ds = (DataSource)envContext.lookup("jdbc/myoracle");
+			con = ds.getConnection();
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return con;
